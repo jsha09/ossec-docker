@@ -10,13 +10,12 @@ DATA_PATH=/var/ossec/data
 DATA_DIRS="etc rules logs stats queue"
 for ossecdir in $DATA_DIRS; do
 	if [ ! -e "${DATA_PATH}/${ossecdir}" ]; then
-    		echo "Installing ${ossecdir}"
+    echo "Installing ${ossecdir}"
 		mkdir -p ${DATA_PATH}/${ossecdir}
-    		cp -a /var/ossec/${ossecdir}-template/* ${DATA_PATH}/${ossecdir}/ 2>/dev/null
-    		FIRST_TIME_INSTALLATION=true
-  	fi
+    cp -a /var/ossec/${ossecdir}-template/* ${DATA_PATH}/${ossecdir}/ 2>/dev/null
+    FIRST_TIME_INSTALLATION=true
+  fi
 done
-
 
 if [ ! -f ${DATA_PATH}/etc/sslmanager.key ]; then
 	openssl genrsa -out ${DATA_PATH}/etc/sslmanager.key 4096
@@ -36,7 +35,6 @@ chmod g+rw ${DATA_PATH}/process_list
 # special configuration steps.
 #
 AUTO_ENROLLMENT_ENABLED=${AUTO_ENROLLMENT_ENABLED:-true}
-
 
 function ossec_shutdown(){
   /var/ossec/bin/ossec-control stop;
